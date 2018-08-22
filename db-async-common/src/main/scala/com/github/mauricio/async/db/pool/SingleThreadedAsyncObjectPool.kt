@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicLong
  * @tparam T type of the object this pool holds
  */
 
-class SingleThreadedAsyncObjectPool<T>(
+open class SingleThreadedAsyncObjectPool<T>(
     private val factory: ObjectFactory<T>,
     private val configuration: PoolConfiguration
 ) : AsyncObjectPool<T> {
