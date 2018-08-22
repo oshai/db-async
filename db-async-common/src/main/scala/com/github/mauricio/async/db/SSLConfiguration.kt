@@ -1,5 +1,7 @@
 package com.github.mauricio.async.db
 
+import java.io.File
+
 /**
  *
  * Contains the SSL configuration necessary to connect to a database.
@@ -9,13 +11,16 @@ package com.github.mauricio.async.db
  *
  */
 data class SSLConfiguration(val mode: Mode = Mode.Disable, val rootCert: java.io.File? = null) {
-    enum class Mode {
-      Disable,
-      Prefer,
-      Require,
-      VerifyCA,
-      VerifyFull
-    }
+  enum class Mode {
+    Disable,
+    Prefer,
+    Require,
+    VerifyCA,
+    VerifyFull
+  }
+
+  //TODO use string values
+  constructor(properties: Map<String, String>) : this(Mode.valueOf(properties.getOrElse("sslmode", { "disable" })), properties.get("sslrootcert")?.let { File(it) })
 }
 
 //object SSLConfiguration {
