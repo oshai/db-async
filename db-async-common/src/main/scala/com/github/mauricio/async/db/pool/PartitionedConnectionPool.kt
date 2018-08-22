@@ -1,10 +1,12 @@
 package com.github.mauricio.async.db.pool;
 
-import com.github.mauricio.async.db.util.ExecutorServiceUtils
-import com.github.mauricio.async.db.QueryResult
 import com.github.mauricio.async.db.Connection
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
+
+//import com.github.mauricio.async.db.util.ExecutorServiceUtils
+//import com.github.mauricio.async.db.QueryResult
+//import com.github.mauricio.async.db.Connection
+//import scala.concurrent.ExecutionContext
+//import scala.concurrent.Future
 
 //didnt see any use of it
 class PartitionedConnectionPool<T : Connection>()

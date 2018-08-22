@@ -5,9 +5,9 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 import java.util.concurrent.ScheduledFuture
 import io.netty.channel.EventLoopGroup
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Promise
-import scala.concurrent.duration.Duration
+//import scala.concurrent.ExecutionContext
+//import scala.concurrent.Promise
+//import scala.concurrent.duration.Duration
 
 interface TimeoutScheduler {
 

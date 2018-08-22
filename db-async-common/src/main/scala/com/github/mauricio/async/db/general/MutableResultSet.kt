@@ -3,7 +3,6 @@ package com.github.mauricio.async.db.general
 import com.github.mauricio.async.db.RowData
 import com.github.mauricio.async.db.ResultSet
 import com.github.mauricio.async.db.util.Log
-import scala.collection.mutable.ArrayBuffer
 
 
 class MutableResultSet<T : ColumnData>(
@@ -14,7 +13,7 @@ class MutableResultSet<T : ColumnData>(
 
   }
 
-  private val rows = ArrayBuffer<RowData>()
+  private val rows = mutableListOf<RowData>()
   private val columnMapping: Map<String, Int> = this.columnTypes.indices.map { index -> this.columnTypes[index].name() to index }.toMap()
 
 
@@ -22,12 +21,12 @@ class MutableResultSet<T : ColumnData>(
 
   val types: List<Int> = this.columnTypes.map { c -> c.dataType() }
 
-  fun length(): Int = this.rows.size() //override
+  fun length(): Int = this.rows.size //override
 
-  fun invoke(idx: Int): RowData = this.rows.apply(idx) //override
+  fun invoke(idx: Int): RowData = this.rows[idx] //override
 
   fun addRow(row: Array<Any>) {
-    this.rows.`$plus$eq`(ArrayRowData(this.rows.size(), this.columnMapping, row))
+    this.rows += (ArrayRowData(this.rows.size, this.columnMapping, row))
   }
 
 }

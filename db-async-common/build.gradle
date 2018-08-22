@@ -35,7 +35,7 @@ dependencies {
     compile "org.joda:joda-convert:1.8.1"
     compile "io.netty:netty-all:4.1.6.Final"
     compile 'com.github.vjames19.kotlin-futures:kotlin-futures-jdk8:1.2.0'
-    compile 'org.scala-lang:scala-library:2.11.12' //TODO remove later
+    //compile 'org.scala-lang:scala-library:2.11.12' //TODO remove later
 }
 
 sourceSets {

@@ -3,7 +3,7 @@ package com.github.mauricio.async.db.util
 
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import scala.concurrent.ExecutionContext
+//import scala.concurrent.ExecutionContext
 
 object ExecutorServiceUtils {
   val CachedThreadPool = Executors.newCachedThreadPool(DaemonThreadsFactory("db-async-funault"))

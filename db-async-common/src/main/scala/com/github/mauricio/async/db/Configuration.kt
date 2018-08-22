@@ -4,7 +4,6 @@ package com.github.mauricio.async.db
 import io.netty.buffer.ByteBufAllocator
 import io.netty.buffer.PooledByteBufAllocator
 import io.netty.util.CharsetUtil
-import scala.concurrent.duration.Duration
 import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 
@@ -41,9 +40,9 @@ data class Configuration(val username: String,
                          val charset: Charset = Configuration.DefaultCharset,
                          val maximumMessageSize: Int = 16777216,
                          val allocator: ByteBufAllocator = PooledByteBufAllocator.DEFAULT,
-                         val connectTimeout: Duration = scala.concurrent.duration.Duration.apply(5, TimeUnit.SECONDS),
-                         val testTimeout: Duration = scala.concurrent.duration.Duration.apply(5, TimeUnit.SECONDS),
-                         val queryTimeout: Duration? = null) {
+                         val connectTimeout: Long = TimeUnit.SECONDS.toMillis(5),// = scala.concurrent.duration.Duration.apply(5, TimeUnit.SECONDS),
+                         val testTimeout: Long= TimeUnit.SECONDS.toMillis(5), //5, TimeUnit.SECONDS),
+                         val queryTimeout: Long? = null) {
   companion object {
     val DefaultCharset = CharsetUtil.UTF_8
 

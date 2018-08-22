@@ -4,8 +4,6 @@ import com.github.mauricio.async.db.util.ExecutorServiceUtils
 import com.github.mauricio.async.db.QueryResult
 import com.github.mauricio.async.db.Connection
 import io.github.vjames19.futures.jdk8.map
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
 import java.util.concurrent.CompletableFuture
 
 /**

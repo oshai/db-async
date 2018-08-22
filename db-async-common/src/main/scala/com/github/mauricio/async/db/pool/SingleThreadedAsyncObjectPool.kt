@@ -3,8 +3,8 @@ package com.github.mauricio.async.db.pool
 import com.github.mauricio.async.db.util.Failure
 import com.github.mauricio.async.db.util.Log
 import com.github.mauricio.async.db.util.Worker
-import scala.collection.mutable.ArrayBuffer
-import scala.collection.mutable.Queue
+import java.util.LinkedList
+import java.util.Queue
 import java.util.Timer
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.RejectedExecutionException
@@ -35,8 +35,8 @@ open class SingleThreadedAsyncObjectPool<T>(
 
   private val mainPool = Worker()
   private var poolables = emptyList<PoolableHolder<T>>()
-  private val checkouts = ArrayBuffer<T>(configuration.maxObjects)
-  private val waitQueue = Queue<CompletableFuture<T>>()
+  private val checkouts = mutableListOf<T>()//configuration.maxObjects
+  private val waitQueue: Queue<CompletableFuture<T>> = LinkedList<CompletableFuture<T>>()
   private val timer = Timer("async-object-pool-timer-" + Counter.incrementAndGet(), true)
 
   init {
@@ -86,7 +86,7 @@ open class SingleThreadedAsyncObjectPool<T>(
       // Ensure it came from this pool
       val idx = this.checkouts.indexOf(item)
       if (idx >= 0) {
-        this.checkouts.remove(idx)
+        this.checkouts.removeAt(idx)
         val validated = this.factory.validate(item)
          when {
            validated.isSuccess() -> {
@@ -121,7 +121,7 @@ open class SingleThreadedAsyncObjectPool<T>(
     return promise
   }
 
-  fun isFull(): Boolean = this.poolables.isEmpty() && this.checkouts.size() == configuration.maxObjects
+  fun isFull(): Boolean = this.poolables.isEmpty() && this.checkouts.size == configuration.maxObjects
 
   override fun close():  CompletableFuture<AsyncObjectPool<T>> {
     try {
@@ -186,12 +186,12 @@ open class SingleThreadedAsyncObjectPool<T>(
    */
 
   private fun enqueuePromise(promise: CompletableFuture<T>) {
-    if (this.waitQueue.size() >= configuration.maxQueueSize) {
+    if (this.waitQueue.size >= configuration.maxQueueSize) {
       val exception = PoolExhaustedException("There are no objects available and the waitQueue is full")
       exception.fillInStackTrace()
       promise.completeExceptionally(exception)
     } else {
-      this.waitQueue.`$plus$eq`(promise)
+      this.waitQueue += promise
     }
   }
 
@@ -217,7 +217,7 @@ open class SingleThreadedAsyncObjectPool<T>(
     if (this.poolables.isEmpty()) {
       try {
         val item = this.factory.create()
-        this.checkouts.`$plus$eq`(item)
+        this.checkouts += item
         promise.complete(item)
       } catch(e: Exception) {
         promise.completeExceptionally(e)
@@ -245,20 +245,20 @@ open class SingleThreadedAsyncObjectPool<T>(
    */
 
   private fun testObjects() {
-    val removals = ArrayBuffer<PoolableHolder<T>>()
+    val removals = mutableListOf<PoolableHolder<T>>()
     this.poolables.forEach { poolable ->
       val tested = this.factory.test(poolable.item)
        when {
          tested.isSuccess() -> {
         if (poolable.timeElapsed() > configuration.maxIdle) {
           log.debug("Connection was idle for {}, maxIdle is {}, removing it", poolable.timeElapsed(), configuration.maxIdle)
-          removals.`$plus$eq`(poolable)
+          removals += poolable
           factory.destroy(poolable.item)
         }
       }
       else -> {
         log.error("Failed to validate object", (tested as Failure).exception)
-        removals.`$plus$eq`(poolable)
+        removals += poolable
         factory.destroy(poolable.item)
       }
     }

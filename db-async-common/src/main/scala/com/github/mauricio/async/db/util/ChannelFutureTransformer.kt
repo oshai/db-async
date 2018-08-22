@@ -2,10 +2,10 @@ package com.github.mauricio.async.db.util
 
 import io.netty.channel.ChannelFutureListener
 import io.netty.channel.ChannelFuture
-import scala.concurrent.Promise
-import scala.concurrent.Future
+//import scala.concurrent.Promise
+//import scala.concurrent.Future
 import com.github.mauricio.async.db.exceptions.CanceledChannelFutureException
-import scala.language.implicitConversions
+//import scala.language.implicitConversions
 import java.util.concurrent.CompletableFuture
 
 object ChannelFutureTransformer {

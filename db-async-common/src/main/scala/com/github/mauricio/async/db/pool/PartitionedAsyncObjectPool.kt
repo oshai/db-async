@@ -1,12 +1,12 @@
 package com.github.mauricio.async.db.pool
 
-import scala.concurrent.Future
-import com.github.mauricio.async.db.util.ExecutorServiceUtils
-import io.github.vjames19.futures.jdk8.map
-import scala.concurrent.Promise
-import java.util.concurrent.ConcurrentHashMap
-import scala.util.Success
-import scala.util.Failure
+//import scala.concurrent.Future
+//import com.github.mauricio.async.db.util.ExecutorServiceUtils
+//import io.github.vjames19.futures.jdk8.map
+//import scala.concurrent.Promise
+//import java.util.concurrent.ConcurrentHashMap
+//import scala.util.Success
+//import scala.util.Failure
 
 //not in use
 class PartitionedAsyncObjectPool<T>()

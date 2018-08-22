@@ -1,9 +1,6 @@
 
 package com.github.mauricio.async.db.util
 
-import scala.math.Ordered
-import scala.util.*
-import scala.util.Success
 
 //object Version {
 //
