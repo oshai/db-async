@@ -16,7 +16,7 @@ import scala.util.Success
 //
 //}
 
-data class Version( val major : Int, val minor : Int, val maintenance : Int ) : Ordered<Version> {
+data class Version( val major : Int, val minor : Int, val maintenance : Int ) {//: Ordered<Version> {
   companion object {
     private fun tryParse( index : Int, pieces : Array<String> ) : Int {
 
@@ -28,7 +28,7 @@ data class Version( val major : Int, val minor : Int, val maintenance : Int ) : 
 
     }
   }
-  override fun compare( y: Version): Int {
+  fun compare( y: Version): Int {
     TODO()
 //    if ( this == y ) {
 //      return 0
