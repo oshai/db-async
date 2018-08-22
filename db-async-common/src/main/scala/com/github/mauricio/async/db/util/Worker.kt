@@ -9,7 +9,7 @@ class Worker(val executionContext: ExecutorService) {
   companion object {
     val log = Log.get()
 
-    fun invoke(): Worker = Worker(ExecutorServiceUtils.newFixedPool(1, "db-async-worker"))
+    operator fun invoke(): Worker = Worker(ExecutorServiceUtils.newFixedPool(1, "db-async-worker"))
 
   }
 
