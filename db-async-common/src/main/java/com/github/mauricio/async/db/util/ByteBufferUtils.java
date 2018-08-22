@@ -8,7 +8,7 @@ import java.nio.charset.Charset;
 
 public class ByteBufferUtils {
 
-  public void writeLength(ByteBuf buffer) {
+  public static void writeLength(ByteBuf buffer) {
 
     int length = buffer.writerIndex() - 1;
     buffer.markWriterIndex();
@@ -19,18 +19,18 @@ public class ByteBufferUtils {
 
   }
 
-  public void writeCString(String content, ByteBuf b, Charset charset) {
+  public static void writeCString(String content, ByteBuf b, Charset charset) {
     b.writeBytes(content.getBytes(charset));
     b.writeByte(0);
   }
 
-  public void writeSizedString(String content, ByteBuf b, Charset charset) {
+  public static void writeSizedString(String content, ByteBuf b, Charset charset) {
     byte[] bytes = content.getBytes(charset);
     b.writeByte(bytes.length);
     b.writeBytes(bytes);
   }
 
-  public String readCString(ByteBuf b, Charset charset) {
+  public static String readCString(ByteBuf b, Charset charset) {
     b.markReaderIndex();
 
     byte b1 = 0;
@@ -50,7 +50,7 @@ public class ByteBufferUtils {
     return result;
   }
 
-  public String readUntilEOF(ByteBuf b, Charset charset) {
+  public static String readUntilEOF(ByteBuf b, Charset charset) {
     if (b.readableBytes() == 0) {
       return "";
     }
@@ -80,18 +80,18 @@ public class ByteBufferUtils {
     return result;
   }
 
-  public int read3BytesInt(ByteBuf b) {
+  public static int read3BytesInt(ByteBuf b) {
     return (b.readByte() & 0xff) | ((b.readByte() & 0xff) << 8) | ((b.readByte() & 0xff) << 16);
   }
 
-  public void write3BytesInt(ByteBuf b, int value) {
+  public static void write3BytesInt(ByteBuf b, int value) {
     b.writeByte(value & 0xff);
     b.writeByte(value >>> 8);
     b.writeByte(value >>> 16);
   }
 
   //sequence =1
-  public void writePacketLength(ByteBuf buffer, int sequence) {
+  public static void writePacketLength(ByteBuf buffer, int sequence) {
     int length = buffer.writerIndex() - 4;
     buffer.markWriterIndex();
     buffer.writerIndex(0);
@@ -103,7 +103,7 @@ public class ByteBufferUtils {
   }
 
   //estimate = 1024
-  public ByteBuf packetBuffer(int estimate) {
+  public static ByteBuf packetBuffer(int estimate) {
     ByteBuf buffer = mysqlBuffer(estimate);
 
     buffer.writeInt(0);
@@ -111,7 +111,7 @@ public class ByteBufferUtils {
     return buffer;
   }
 
-  public ByteBuf mysqlBuffer(int estimate) {
+  public static ByteBuf mysqlBuffer(int estimate) {
     return Unpooled.buffer(estimate).order(ByteOrder.LITTLE_ENDIAN);
   }
 
